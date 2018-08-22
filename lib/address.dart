@@ -1,8 +1,10 @@
 
 class Address {
-  Address(String city, String street, int number);
+  Address({this.city, this.street, this.number});
   String city;
   String street;
   int number;
+
+  factory Address.initialAddress() => Address(city: 'Berlin', number: 39, street: 'Paul-Linke Ufer'); 
 }
 

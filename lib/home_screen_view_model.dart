@@ -4,7 +4,7 @@ typedef AddAddressHandler = void Function(Address address);
 
 class HomeScreenViewModel {
   final List<Address> list;
-  final AddAddressHandler listHandler;
+  final AddAddressHandler addressHandler;
 
-  HomeScreenViewModel({this.list, this.listHandler});   
+  HomeScreenViewModel({this.list, this.addressHandler});
 }

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:address_book/address.dart';
-import 'package:address_book/keys.dart';
 import 'package:address_book/screens.dart';
 
 class AppState { 

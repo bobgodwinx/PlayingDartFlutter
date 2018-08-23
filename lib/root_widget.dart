@@ -23,7 +23,4 @@ class RootWidget extends StatelessWidget {
                                                 );
       return connector;
     }
-
-
-
 }

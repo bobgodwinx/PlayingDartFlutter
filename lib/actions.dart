@@ -1,5 +1,5 @@
-import 'package:address_book/address.dart';
-import 'package:address_book/screens.dart';
+import 'address.dart';
+import 'screens.dart';
 
 class LoadAddressesAction {}
 
@@ -14,7 +14,7 @@ class AddAddressAction {
   AddAddressAction(this.address);
 }
 
-class LoadAction{
+class LoadAction {
   bool isLoading = true;
 }
 
@@ -22,7 +22,4 @@ class IsLoadingAction extends LoadAction {
   @override
   bool isLoading;
   IsLoadingAction(this.isLoading);
-  
 }
-
-

@@ -1,10 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:address_book/app_state.dart';
-import 'package:address_book/home_screen_view_model.dart';
-import 'package:address_book/address.dart';
-import 'package:address_book/actions.dart';
+
+import 'app_state.dart';
+import 'home/home_screen_view_model.dart';
 
 class RootWidget extends StatelessWidget {
   final ViewModelBuilder<HomeScreenViewModel> builder;
@@ -13,14 +12,8 @@ class RootWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    var converter =  (Store<AppState> store) => HomeScreenViewModel(
-          list: store.state.placemarks,
-          addressHandler: (Address address) {
-            /// here we need to dispatch an action
-            store.dispatch(AddAddressAction(address));
-          });
+    var converter = (Store<AppState> store) =>
+        HomeScreenViewModel(list: store.state.placemarks);
 
     StoreConnector connector = StoreConnector<AppState, HomeScreenViewModel>(
       converter: converter,

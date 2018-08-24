@@ -1,5 +1,5 @@
-import 'package:address_book/address.dart';
-import 'package:address_book/screens.dart';
+import 'address.dart';
+import 'screens.dart';
 
 class AppState { 
   final List<Address> placemarks;

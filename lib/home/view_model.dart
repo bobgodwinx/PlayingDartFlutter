@@ -1,4 +1,4 @@
-import 'package:address_book/address.dart';
+import '../address.dart';
 
 typedef AddAddressHandler = void Function(Address address);
 

@@ -1,14 +1,15 @@
 import 'package:redux/redux.dart';
-import 'package:address_book/actions.dart';
-import 'package:address_book/app_state.dart';
-import 'package:address_book/address.dart';
-import 'package:address_book/screens.dart';
+import 'actions.dart';
+import 'app_state.dart';
+import 'address.dart';
+import 'screens.dart';
 
 AppState appStateReducer(AppState state, dynamic action) {
-  return AppState(
+  AppState newState = AppState(
       currentScreen: _currentScreenReducer(state.currentScreen, action),
       isLoading: _loadingReducer(state.isLoading, action),
       placemarks: _addressListReducer(state.placemarks, action));
+  return newState;
 }
 
 AppState _loadAction(AppState appState, LoadAddressesAction action) =>

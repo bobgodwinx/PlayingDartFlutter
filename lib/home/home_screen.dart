@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../root_widget.dart';
 import '../routes.dart';
+
 import 'view_model.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,9 +14,8 @@ class HomeScreen extends StatelessWidget {
         title: Text('Berlin'),
         elevation: 0.0,
       );
-      Column body = Column(children: [
-        _body(context, viewModel),
-      ]);
+      Widget body = _body(context, viewModel);
+
       return Scaffold(
         appBar: appBar,
         body: body,
@@ -24,8 +25,13 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, HomeScreenViewModel viewModel) {
-    var children = viewModel.list.map((item) => Text(item.city)).toList();
-    Column childView = Column(children: children);
+    var children = viewModel.list
+        .map((item) => Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text('City: ${item.city}, Street: ${item.street}')))
+        .toList();
+
+    ListView childView = ListView(children: children);
     return Card(child: childView);
   }
 

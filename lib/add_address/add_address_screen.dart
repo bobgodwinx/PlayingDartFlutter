@@ -5,58 +5,82 @@ import 'package:redux/redux.dart';
 import '../address.dart';
 import '../app_state.dart';
 import '../actions.dart';
-import '../address.dart';
 
 import 'view_model.dart';
 
 class AddAddressScreen extends StatelessWidget {
-  converter(Store<AppState> state) {
-    return;
-  }
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  static final GlobalKey<FormFieldState<String>> _cityKey =
+      GlobalKey<FormFieldState<String>>();
+  static final GlobalKey<FormFieldState<String>> _streetKey =
+      GlobalKey<FormFieldState<String>>();
 
   @override
   Widget build(BuildContext context) {
-    
     return StoreConnector<AppState, AddAddressViewModel>(
-        converter: (store) => AddAddressViewModel(
-            addressHandler: (Address address) =>
-                store.dispatch(AddAddressAction(address))),
-        builder: (BuildContext context, AddAddressViewModel viewModel) {
-          AppBar appBar = AppBar(
-            title: Text('Berlin'),
-            elevation: 0.0,
-          );
-
-          Column body = Column(children: [
-            _body(context),
-            _button(context, viewModel.addressHandler)
-          ]);
-          return Scaffold(appBar: appBar, body: body);
-        });
+        converter: _converter, builder: _builder);
   }
 
-  Widget _body(BuildContext context) {
-    var children = [
-      TextField(
-        decoration: InputDecoration(
-            border: InputBorder.none, hintText: 'Please enter a search term'),
-      )
-    ];
-    Column childView = Column(children: children);
-    return Card(child: childView);
+  AddAddressViewModel _converter(Store<AppState> store) {
+    return AddAddressViewModel(
+        addressHandler: (Address address) =>
+            store.dispatch(AddAddressAction(address)));
+  }
+
+  Widget _builder(BuildContext context, AddAddressViewModel viewModel) {
+    AppBar appBar = AppBar(
+      title: Text('Add Address'),
+      elevation: 0.0,
+    );
+
+    return Scaffold(
+      appBar: appBar,
+      body: _body(context, viewModel),
+    );
+  }
+
+  Widget _body(BuildContext context, AddAddressViewModel viewModel) {
+    Widget streetField = TextFormField(
+      key: _streetKey,
+      validator: viewModel.streetValidator,
+      decoration: InputDecoration(
+        hintText: 'Street',
+      ),
+    );
+    Widget cityField = TextFormField(
+      key: _cityKey,
+      validator: viewModel.cityValidator,
+      decoration: InputDecoration(border: InputBorder.none, hintText: 'City'),
+    );
+
+    return Form(
+      key: _formKey,
+      child: ListView(
+        children: [
+          streetField,
+          cityField,
+          _button(context, viewModel.addressHandler)
+        ],
+      ),
+    );
   }
 
   Widget _button(BuildContext context, AddAddressHandler addressHandler) {
-    Address address = Address(city: "Lagos", number: 30, street: 'Holy Street');
     Color color = Theme.of(context).primaryColor;
     RaisedButton button = RaisedButton(
         child: Text('Add'),
-        onPressed: () => addressHandler(address),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            Address address = Address(
+                city: _cityKey.currentState.value,
+                street: _streetKey.currentState.value);
+                
+            addressHandler(address);
+          }
+        },
         color: color);
     return Container(
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
         child: button);
   }
-
-  Widget _addressInput(BuildContext context) {}
 }

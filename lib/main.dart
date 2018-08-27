@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'app_state.dart';
+
 import 'home/home_screen.dart';
+import 'app_state.dart';
 import 'reducers.dart';
 import 'actions.dart';
 import 'add_address/add_address_screen.dart';

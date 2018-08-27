@@ -1,1 +1,1 @@
-enum Screens { home, add, edit } 
+enum Screens { home, add, edit }

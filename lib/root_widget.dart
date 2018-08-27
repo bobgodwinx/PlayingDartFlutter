@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'app_state.dart';
-import 'home/home_screen_view_model.dart';
+import 'home/view_model.dart';
 
 class RootWidget extends StatelessWidget {
   final ViewModelBuilder<HomeScreenViewModel> builder;

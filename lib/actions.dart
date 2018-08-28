@@ -3,10 +3,10 @@ import 'screens.dart';
 
 class LoadAddressesAction {}
 
-class LoadCurrentScreen {
+class LoadCurrentScreenAction {
   final Screens currentScreen;
 
-  LoadCurrentScreen({this.currentScreen});
+  LoadCurrentScreenAction({this.currentScreen});
 }
 
 class AddAddressAction {

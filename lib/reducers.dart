@@ -1,25 +1,23 @@
 import 'package:redux/redux.dart';
-
 import 'actions.dart';
 import 'app_state.dart';
 import 'address.dart';
 import 'screens.dart';
 
 AppState appStateReducer(AppState state, dynamic action) {
-  AppState newState = AppState(
+  return AppState(
       currentScreen: _currentScreenReducer(state.currentScreen, action),
       isLoading: _loadingReducer(state.isLoading, action),
       placemarks: _addressListReducer(state.placemarks, action));
-  return newState;
 }
 
 AppState _loadAction(AppState appState, LoadAddressesAction action) =>
     AppState.initialState();
 
 final _currentScreenReducer = combineReducers<Screens>(
-    [TypedReducer<Screens, LoadCurrentScreen>(_setCurrentScreen)]);
+    [TypedReducer<Screens, LoadCurrentScreenAction>(_setCurrentScreen)]);
 
-Screens _setCurrentScreen(Screens state, LoadCurrentScreen action) {
+Screens _setCurrentScreen(Screens state, LoadCurrentScreenAction action) {
   return action.currentScreen;
 }
 

@@ -8,6 +8,7 @@ import 'reducers.dart';
 import 'actions.dart';
 import 'add_address/add_address_screen.dart';
 import 'routes.dart';
+import 'midlwares.dart';
 
 //Main App entrance
 void main() {
@@ -16,10 +17,11 @@ void main() {
 }
 
 class AddressBookApp extends StatelessWidget {
-  final Store<AppState> store =
-      Store(
-        appStateReducer, 
-      initialState: AppState.initialState());
+  final Store<AppState> store = Store(
+    appStateReducer,
+    initialState: AppState.initialState(),
+    middleware: [loggingMiddleware],
+  );
 
   @override
   Widget build(BuildContext context) {

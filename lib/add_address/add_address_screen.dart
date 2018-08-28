@@ -74,8 +74,9 @@ class AddAddressScreen extends StatelessWidget {
             Address address = Address(
                 city: _cityKey.currentState.value,
                 street: _streetKey.currentState.value);
-                
+
             addressHandler(address);
+            Navigator.pop(context);
           }
         },
         color: color);

@@ -15,7 +15,7 @@ class AddAddressScreen extends StatelessWidget {
   static final GlobalKey<FormFieldState<String>> _streetKey =
       GlobalKey<FormFieldState<String>>();
 
-  static GlobalKey<FormFieldState<String>>  get cityKey => _cityKey;
+  static GlobalKey<FormFieldState<String>> get cityKey => _cityKey;
   static GlobalKey<FormFieldState<String>> get streetKey => _streetKey;
 
   @override

@@ -21,7 +21,7 @@ class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
     appStateReducer,
     initialState: AppState.initialState(),
-    middleware: [loggingMiddleware],
+    middleware: [loggingMiddleware, addressMiddleware],
   );
 
   @override
@@ -29,7 +29,7 @@ class AddressBookApp extends StatelessWidget {
     Widget home = StoreBuilder<AppState>(
         onInit: (Store<AppState> store) {
           store.dispatch(LoadCurrentScreenAction(currentScreen: Screens.home));
-          store.dispatch(LoadAction());
+          store.dispatch(LoadAddressesAction());
         },
         builder: (context, store) => HomeScreen());
     Widget addAddress = StoreBuilder<AppState>(

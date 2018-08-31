@@ -5,10 +5,16 @@ import 'address.dart';
 import 'screens.dart';
 
 AppState appStateReducer(AppState state, dynamic action) {
-  return AppState(
-      currentScreen: _currentScreenReducer(state.currentScreen, action),
-      isLoading: _loadingReducer(state.isLoading, action),
-      placemarks: _addressListReducer(state.placemarks, action));
+  List<Address> placemarks = _addressListReducer(state.placemarks, action);
+  bool isLoading = _loadingReducer(state.isLoading, action);
+  Screens currentScreen = _currentScreenReducer(state.currentScreen, action);
+
+  AppState newState = AppState(
+      currentScreen: currentScreen,
+      isLoading: isLoading,
+      placemarks: placemarks);
+
+  return newState;
 }
 
 AppState _loadAction(AppState appState, LoadAddressesAction action) =>
@@ -21,8 +27,15 @@ Screens _setCurrentScreen(Screens state, LoadCurrentScreenAction action) {
   return action.currentScreen;
 }
 
-final _addressListReducer = combineReducers<List<Address>>(
-    [TypedReducer<List<Address>, AddAddressAction>(_addAddress)]);
+final _addressListReducer = combineReducers<List<Address>>([
+  TypedReducer<List<Address>, AddAddressAction>(_addAddress),
+  TypedReducer<List<Address>, LoadedAddressesAction>(_loadedAddresses),
+]);
+
+List<Address> _loadedAddresses(
+    List<Address> addressList, LoadedAddressesAction action) {
+  return action.addressList;
+}
 
 List<Address> _addAddress(List<Address> addressList, AddAddressAction action) {
   addressList.add(action.address);

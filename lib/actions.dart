@@ -9,6 +9,11 @@ class LoadCurrentScreenAction {
   LoadCurrentScreenAction({this.currentScreen});
 }
 
+class LoadedAddressesAction {
+  List<Address> addressList;
+  LoadedAddressesAction(this.addressList);
+}
+
 class AddAddressAction {
   Address address;
   AddAddressAction(this.address);

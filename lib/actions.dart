@@ -1,30 +1,29 @@
 import 'address.dart';
-import 'screens.dart';
+import 'screen.dart';
 
 class LoadAddressesAction {}
 
-class LoadCurrentScreenAction {
-  final Screens currentScreen;
-
-  LoadCurrentScreenAction({this.currentScreen});
+class ScreenUpdateAction {
+  final Screen screen;
+  ScreenUpdateAction({this.screen});
 }
 
 class LoadedAddressesAction {
-  List<Address> addressList;
+  final List<Address> addressList;
   LoadedAddressesAction(this.addressList);
 }
 
 class AddAddressAction {
-  Address address;
+  final Address address;
   AddAddressAction(this.address);
 }
 
 class LoadAction {
-  bool isLoading = true;
+  final bool isLoading = true;
 }
 
 class IsLoadingAction extends LoadAction {
   @override
-  bool isLoading;
+  final bool isLoading;
   IsLoadingAction(this.isLoading);
 }

@@ -1,20 +1,20 @@
 import 'address.dart';
-import 'screens.dart';
+import 'screen.dart';
 
 class AppState {
   final List<Address> placemarks;
   final bool isLoading;
-  final Screens currentScreen;
+  final Screen currentScreen;
 
   AppState({this.currentScreen, this.isLoading, this.placemarks = const []});
 
   factory AppState.initialState() => AppState(
-        currentScreen: Screens.home,
+        currentScreen: Screen.home,
         isLoading: false,
         placemarks: [Address.initialAddress()],
       );
 
-  AppState copyWith({bool isLoading, Screens currentScreen, List placemarks}) {
+  AppState copyWith({bool isLoading, Screen currentScreen, List placemarks}) {
     return AppState(
         isLoading: isLoading ?? this.isLoading,
         currentScreen: currentScreen ?? this.currentScreen,

@@ -2,51 +2,53 @@ import 'package:redux/redux.dart';
 import 'actions.dart';
 import 'app_state.dart';
 import 'address.dart';
-import 'screens.dart';
+import 'screen.dart';
 
-AppState appStateReducer(AppState state, dynamic action) {
-  List<Address> placemarks = _addressListReducer(state.placemarks, action);
-  bool isLoading = _loadingReducer(state.isLoading, action);
-  Screens currentScreen = _currentScreenReducer(state.currentScreen, action);
-
-  AppState newState = AppState(
-      currentScreen: currentScreen,
-      isLoading: isLoading,
-      placemarks: placemarks);
-
-  return newState;
+/// Contract `StateReducer` 
+/// must be implemented by the 
+/// the adoption class.
+abstract class StateReducer {
+  AppState appStateReducer<A>(AppState state, A action);  
+  Reducer<List<Address>> placemarksReducer;
+  Reducer<bool> loadingReducer;
+  Reducer<Screen> screenReducer;
 }
+/// 
+class ReducerManager implements StateReducer {
 
-AppState _loadAction(AppState appState, LoadAddressesAction action) =>
-    AppState.initialState();
+  AppState appStateReducer<A>(AppState state, A action) {
+    return AppState(currentScreen: screenReducer(state.currentScreen, action), 
+                    isLoading: loadingReducer(state.isLoading, action), 
+                    placemarks: placemarksReducer(state.placemarks, action));
+  }
 
-final _currentScreenReducer = combineReducers<Screens>(
-    [TypedReducer<Screens, LoadCurrentScreenAction>(_setCurrentScreen)]);
+  Reducer<List<Address>> placemarksReducer;
+  Reducer<bool> loadingReducer;
+  Reducer<Screen> screenReducer;
+  /// Todo - Come back for dependency injection. 
+  ReducerManager() {
+      /// Placemarks Action closures
+      List<Address> addPlacemarks(List<Address> placemarks, AddAddressAction action) => placemarks..add(action.address);
+      List<Address> loadPlacemarks(List<Address> placemarks, LoadedAddressesAction action) => action.addressList;
+      /// Placemarks Reducer
+      placemarksReducer = combineReducers<List<Address>>([
+        TypedReducer<List<Address>, AddAddressAction>(addPlacemarks),
+        TypedReducer<List<Address>, LoadedAddressesAction>(loadPlacemarks),
+      ]);
 
-Screens _setCurrentScreen(Screens state, LoadCurrentScreenAction action) {
-  return action.currentScreen;
-}
+      /// Loading Action closure
+      bool loading(bool currentState, LoadAction action) => action.isLoading;
+      /// loading Reducer
+      loadingReducer = combineReducers<bool>([
+        TypedReducer<bool, LoadAction>(loading),
+        TypedReducer<bool, IsLoadingAction>(loading)
+      ]);
 
-final _addressListReducer = combineReducers<List<Address>>([
-  TypedReducer<List<Address>, AddAddressAction>(_addAddress),
-  TypedReducer<List<Address>, LoadedAddressesAction>(_loadedAddresses),
-]);
-
-List<Address> _loadedAddresses(
-    List<Address> addressList, LoadedAddressesAction action) {
-  return action.addressList;
-}
-
-List<Address> _addAddress(List<Address> addressList, AddAddressAction action) {
-  addressList.add(action.address);
-  return addressList;
-}
-
-final _loadingReducer = combineReducers<bool>([
-  TypedReducer<bool, LoadAction>(_setLoading),
-  TypedReducer<bool, IsLoadingAction>(_setLoading)
-]);
-
-bool _setLoading(bool state, LoadAction action) {
-  return action.isLoading;
+      /// screen Action closure
+      Screen screen(Screen currentScreen, ScreenUpdateAction action) => action.screen;
+      /// Current Screen Reducer
+      screenReducer = combineReducers<Screen>([
+        TypedReducer<Screen, ScreenUpdateAction>(screen),
+      ]);
+  }
 }

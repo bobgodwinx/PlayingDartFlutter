@@ -12,8 +12,8 @@ class RootWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var converter = (Store<AppState> store) =>
-        HomeScreenViewModel(list: store.state.placemarks);
+    var converter = (Store<AppState> store) => HomeScreenViewModel(
+        list: store.state.placemarks, isLoading: store.state.isLoading);
 
     StoreConnector connector = StoreConnector<AppState, HomeScreenViewModel>(
       converter: converter,

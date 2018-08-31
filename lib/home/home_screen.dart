@@ -25,12 +25,17 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, HomeScreenViewModel viewModel) {
-    var children = viewModel.list
+    return viewModel.isLoading ? _loadingProgress() : _addressList(viewModel);
+  }
+
+  Widget _loadingProgress() => LinearProgressIndicator();
+  
+  Widget _addressList(HomeScreenViewModel viewModel) {
+    final children = viewModel.list
         .map((item) => Padding(
             padding: EdgeInsets.all(5.0),
             child: Text('City: ${item.city}, Street: ${item.street}')))
         .toList();
-
     ListView childView = ListView(children: children);
     return Card(child: childView);
   }

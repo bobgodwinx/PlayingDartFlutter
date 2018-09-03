@@ -17,7 +17,7 @@ import 'package:address_book/address.dart';
 
 class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
-    appStateReducer,
+    ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
   );
 

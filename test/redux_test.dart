@@ -8,10 +8,11 @@ import 'package:address_book/reducers.dart';
 import 'package:address_book/app_state.dart';
 import 'package:address_book/address.dart';
 import 'package:address_book/actions.dart';
-import 'package:address_book/screens.dart';
+import 'package:address_book/screen.dart';
 
 main() {
   group('State Reducer', () {
+    final appStateReducer = ReducerManager().appStateReducer;
     test('should add an address on AddAddressAction', () {
       final store = Store<AppState>(
         appStateReducer,
@@ -49,11 +50,10 @@ main() {
         appStateReducer,
         initialState: appState,
       );
-      store.dispatch(LoadCurrentScreenAction(currentScreen: Screens.add));
+      store.dispatch(ScreenUpdateAction(screen: Screen.add));
 
-      AppState expectedState = appState.copyWith(currentScreen: Screens.add);
+      AppState expectedState = appState.copyWith(currentScreen: Screen.add);
       expect(store.state, expectedState);
     });
-
   });
 }

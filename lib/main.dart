@@ -10,6 +10,7 @@ import 'add_address/add_address_screen.dart';
 import 'routes.dart';
 import 'midlwares.dart';
 import 'screen.dart';
+import 'providers/address_provider.dart';
 
 //Main App entrance
 void main() {
@@ -21,7 +22,7 @@ class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
     ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
-    middleware: [loggingMiddleware, addressMiddleware],
+    middleware: MiddlewareManager(addressProvider:AddressProvider.instance()).middlewares(),
   );
 
   @override

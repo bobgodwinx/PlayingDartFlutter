@@ -2,25 +2,53 @@ import 'package:redux/redux.dart';
 
 import 'app_state.dart';
 import 'actions.dart';
-import 'repositories/address_repository.dart';
+import 'provider/address_provider_type.dart';
 
-loggingMiddleware(Store<AppState> store, dynamic action, NextDispatcher next) {
-  print(store.state);
-  print('action: $action');
+abstract class StateMiddleware {
+  Middleware<AppState> addressMiddleware;
+  Middleware<AppState> loggingMiddleware;
 
-  next(action);
+  List<Middleware> middlewares();
 }
 
-AddressRepository addressRepository = AddressRepositoryImpl();
+class MiddlewareManager implements StateMiddleware {
+  Middleware<AppState> addressMiddleware;
+  Middleware<AppState> loggingMiddleware;
 
-Middleware<AppState> addressMiddleware =
-    TypedMiddleware<AppState, LoadAddressesAction>(loadAddresses);
+  AddressProviderType _addressProvider;
 
-loadAddresses(
-    Store<AppState> state, LoadAddressesAction action, NextDispatcher next) {
+  MiddlewareManager({AddressProviderType addressProvider}) {
+    this._addressProvider = addressProvider;
+    
+    /// Loads address list.
+    /// Dispatches an action IsLoadingAction when starts loading.
+    /// When loading is finished IsLoadingAction and LoadedAddressesAction are dispatched.
+    _loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
       next(IsLoadingAction(true));
-  addressRepository.load().then((addressList) {
-    next(LoadedAddressesAction(addressList));
-    next(IsLoadingAction(false));
-  });
+
+      _addressProvider.load().then((addressList) {
+        next(LoadedAddressesAction(addressList));
+        next(IsLoadingAction(false));
+      }).catchError((e) {
+        print('onError: exception $e');
+        next(IsLoadingAction(false));
+      });
+    }
+
+    /// Logs state and an action
+    _logging(Store<AppState> store, dynamic action, NextDispatcher next) {
+      print(store.state);
+      print('action: $action');
+
+      next(action);
+    }
+
+    addressMiddleware =
+        TypedMiddleware<AppState, LoadAddressesAction>(_loadAddresses);
+    loggingMiddleware = TypedMiddleware<AppState, dynamic>(_logging);
+  }
+
+  List<Middleware> middlewares() {
+    return [addressMiddleware, loggingMiddleware];
+  }
 }

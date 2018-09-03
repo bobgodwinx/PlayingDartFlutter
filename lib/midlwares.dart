@@ -2,7 +2,7 @@ import 'package:redux/redux.dart';
 
 import 'app_state.dart';
 import 'actions.dart';
-import 'provider/address_provider_type.dart';
+import 'providers/address_provider_type.dart';
 
 abstract class StateMiddleware {
   Middleware<AppState> addressMiddleware;

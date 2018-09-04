@@ -20,15 +20,18 @@ class MiddlewareManager implements StateMiddleware {
     /// Dispatches an action IsLoadingAction when starts loading.
     /// When loading is finished IsLoadingAction and LoadedAddressesAction are dispatched.
     loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
-      next(IsLoadingAction(true));
-
       addressProvider.load().then((addressList) {
-        next(LoadedAddressesAction(addressList));
-        next(IsLoadingAction(false));
+        /// upon arrival of `addressList` we then use
+        /// `store` to dispatch our next actions 
+        store.dispatch(LoadedAddressesAction(addressList));
+        store.dispatch(IsLoadingAction(false));
       }).catchError((e) {
-        print('onError: exception $e');
-        next(IsLoadingAction(false));
+        /// In case of Error we handle it here.
+        store.dispatch(IsLoadingAction(false));
       });
+      /// This is the immediate action 
+      /// when this closure is called
+      next(IsLoadingAction(true));
     }
 
     /// Logs state and an action

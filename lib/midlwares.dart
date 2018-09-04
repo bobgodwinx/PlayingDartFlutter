@@ -15,18 +15,14 @@ class MiddlewareManager implements StateMiddleware {
   Middleware<AppState> addressMiddleware;
   Middleware<AppState> loggingMiddleware;
 
-  AddressProviderType _addressProvider;
-
   MiddlewareManager({AddressProviderType addressProvider}) {
-    this._addressProvider = addressProvider;
-    
     /// Loads address list.
     /// Dispatches an action IsLoadingAction when starts loading.
     /// When loading is finished IsLoadingAction and LoadedAddressesAction are dispatched.
-    _loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
+    loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
       next(IsLoadingAction(true));
 
-      _addressProvider.load().then((addressList) {
+      addressProvider.load().then((addressList) {
         next(LoadedAddressesAction(addressList));
         next(IsLoadingAction(false));
       }).catchError((e) {
@@ -36,19 +32,16 @@ class MiddlewareManager implements StateMiddleware {
     }
 
     /// Logs state and an action
-    _logging(Store<AppState> store, dynamic action, NextDispatcher next) {
+    logging(Store<AppState> store, dynamic action, NextDispatcher next) {
       print(store.state);
       print('action: $action');
 
       next(action);
     }
 
-    addressMiddleware =
-        TypedMiddleware<AppState, LoadAddressesAction>(_loadAddresses);
-    loggingMiddleware = TypedMiddleware<AppState, dynamic>(_logging);
+    addressMiddleware = TypedMiddleware<AppState, LoadAddressesAction>(loadAddresses);
+    loggingMiddleware = TypedMiddleware<AppState, dynamic>(logging);
   }
 
-  List<Middleware> middlewares() {
-    return [addressMiddleware, loggingMiddleware];
-  }
+  List<Middleware> middlewares() => [addressMiddleware, loggingMiddleware];
 }

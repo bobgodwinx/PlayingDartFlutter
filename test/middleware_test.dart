@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux/redux.dart';
 import 'package:address_book/midlwares.dart';
@@ -7,65 +8,86 @@ import 'package:address_book/actions.dart';
 import 'package:address_book/screen.dart';
 import 'package:address_book/providers/address_provider_type.dart';
 import 'package:mockito/mockito.dart';
-// class AddressProviderMock implements AddressProviderType{
-//    List<Address> addressList = [
-//     Address(city: 'Berlin', street: 'Walkenstrasse', number: 10),
-//     Address(city: 'Yerevan', street: 'Koryun', number: 7),
-//     Address(city: 'Berlin', street: 'paul-lincke-uffer', number: 39),
-//   ];
+import 'package:address_book/reducers.dart';
 
-//   AddressProviderMock() {}
+class AddressProviderMock implements AddressProviderType{
+  List<Address> addressList = [Address(city: 'Berlin', street: 'Walkenstrasse', number: 10)];
 
-//   factory AddressProviderMock.instance() => AddressProviderMock();
+  AddressProviderMock() {}
 
-//   Future<List<Address>> load() async {
-//     // throw Exception('an error!');
-//     return addressList;
-//   }
+  factory AddressProviderMock.instance() => AddressProviderMock();
 
-//   Future<bool> save() async {
-//     return true;
-//   }
-// }
+  Future<List<Address>> load() async {
+    return addressList;
+  }
 
-class AddressProviderMock extends Mock implements AddressProviderType {}
+  Future<bool> save() async {
+    return true;
+  }
+}
 
+class Call {
+  String functionName;
+  List<dynamic> parameters;
+
+  Call({this.functionName, this.parameters = const []});
+} 
+
+class TestLogger {
+
+  List<Call> logs = [];
+
+  TestLogger(){}
+
+  log(Call functionCall) {
+    logs.add(functionCall);
+  }
+}
+
+class MockStore extends Store<AppState> {
+
+  TestLogger logger;
+
+  MockStore({this.logger, MiddlewareManager manager}) : super(
+    ReducerManager().appStateReducer, 
+    initialState: AppState.initialState(), 
+    middleware: manager.middlewares(),
+  );
+
+  @override
+    void dispatch(dynamic action) {
+      Call call = Call(functionName: "hello", parameters: [action]);
+      logger.log(call);
+      super.dispatch(action);
+  }
+}
 main() {
   group('MiddlewareManager', () {
-    final middlewareManager =
-        MiddlewareManager(addressProvider: AddressProviderMock());
-    final middlewaresCount = 2;
-    test('middlewares count should be $middlewaresCount', () {
-      expect(middlewareManager.middlewares().length, middlewaresCount);
+
+    TestLogger logger;
+    MockStore store;
+    MiddlewareManager sut;
+    
+    setUp(() {
+      logger = TestLogger();
+      sut = MiddlewareManager(addressProvider: AddressProviderMock());
+      store = MockStore(logger: logger, manager: sut);
     });
 
-    //   test('AddAddressAction should only change placemarks', () {
-    //     final store = Store<AppState>(
-    //       appStateReducer,
-    //       initialState: AppState.initialState(),
-    //     );
+    tearDown(() {
+      logger = null;
+      sut = null;
+      store = null;
+    });
 
-    //     final address = Address();
+    test('middleware to make 2 store dispatch calls when loadAddresses gets LoadAddressesAction', () async {
+      await sut.middlewares()[0](store, LoadAddressesAction(), (IsLoadingAction){});
+      expect(logger.logs.length, 2);
+    });
 
-    //     store.dispatch(AddAddressAction(address));
-
-    //     AppState expectedState = AppState.initialState();
-    //     expectedState.placemarks.add(address);
-
-    //     expect(store.state, expectedState);
-    //   });
-
-    //   test('LoadCurrentScreenAction should set currentScreen', () {
-    //     final appState = AppState.initialState();
-    //     final store = Store<AppState>(
-    //       appStateReducer,
-    //       initialState: appState,
-    //     );
-    //     store.dispatch(ScreenUpdateAction(screen: Screen.add));
-
-    //     AppState expectedState = appState.copyWith(currentScreen: Screen.add);
-    //     expect(store.state, expectedState);
-    //   });
-    // });
+    test('middleware to make 0 store dispatch calls when loadAddresses gets the wronge Action', () async {
+      await sut.middlewares()[0](store, IsLoadingAction, (IsLoadingAction){});
+      expect(logger.logs.length, 0);
+    });
   });
 }

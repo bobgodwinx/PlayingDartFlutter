@@ -8,7 +8,7 @@ import 'screen.dart';
 /// must be implemented by the 
 /// the adoption class.
 abstract class StateReducer {
-  AppState appStateReducer<A>(AppState state, A action);  
+  AppState appStateReducer(AppState state, dynamic action);  
   Reducer<List<Address>> placemarksReducer;
   Reducer<bool> loadingReducer;
   Reducer<Screen> screenReducer;
@@ -16,7 +16,7 @@ abstract class StateReducer {
 /// 
 class ReducerManager implements StateReducer {
 
-  AppState appStateReducer<A>(AppState state, A action) {
+  AppState appStateReducer(AppState state, dynamic action) {
     return AppState(currentScreen: screenReducer(state.currentScreen, action), 
                     isLoading: loadingReducer(state.isLoading, action), 
                     placemarks: placemarksReducer(state.placemarks, action));

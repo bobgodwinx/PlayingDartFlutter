@@ -4,13 +4,6 @@ import 'app_state.dart';
 import 'actions.dart';
 import 'providers/address_provider_type.dart';
 
-abstract class StateMiddleware {
-  Middleware<AppState> addressMiddleware;
-  Middleware<AppState> loggingMiddleware;
-
-  List<Middleware> middlewares();
-}
-
 abstract class AddressControllerType { 
     loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next);
     logging(Store<AppState> store, dynamic action, NextDispatcher next);
@@ -48,17 +41,4 @@ class AddressController implements AddressControllerType {
 
     next(action);
   }
-}
-
-class MiddlewareManager implements StateMiddleware {
-  Middleware<AppState> addressMiddleware;
-  Middleware<AppState> loggingMiddleware;
-
-  MiddlewareManager(AddressControllerType controller) {
-    addressMiddleware =
-        TypedMiddleware<AppState, LoadAddressesAction>(controller.loadAddresses);
-    loggingMiddleware = TypedMiddleware<AppState, dynamic>(controller.logging);
-  }
-
-  List<Middleware> middlewares() => [addressMiddleware, loggingMiddleware];
 }

@@ -10,8 +10,10 @@ import 'package:address_book/providers/address_provider_type.dart';
 import 'package:mockito/mockito.dart';
 import 'package:address_book/reducers.dart';
 
-class AddressProviderMock implements AddressProviderType{
-  List<Address> addressList = [Address(city: 'Berlin', street: 'Walkenstrasse', number: 10)];
+class AddressProviderMock implements AddressProviderType {
+  List<Address> addressList = [
+    Address(city: 'Berlin', street: 'Walkenstrasse', number: 10)
+  ];
 
   AddressProviderMock() {}
 
@@ -31,47 +33,58 @@ class Call {
   List<dynamic> parameters;
 
   Call({this.functionName, this.parameters = const []});
-} 
+}
 
 class TestLogger {
-
   List<Call> logs = [];
 
-  TestLogger(){}
+  TestLogger() {}
 
   log(Call functionCall) {
     logs.add(functionCall);
   }
 }
 
-class MockStore extends Store<AppState> {
+// class MockStore extends Store<AppState> {
+//   TestLogger logger;
 
-  TestLogger logger;
+//   MockStore({this.logger, MiddlewareManager manager})
+//       : super(
+//           ReducerManager().appStateReducer,
+//           initialState: AppState.initialState(),
+//           middleware: manager.middlewares(),
+//         );
 
-  MockStore({this.logger, MiddlewareManager manager}) : super(
-    ReducerManager().appStateReducer, 
-    initialState: AppState.initialState(), 
-    middleware: manager.middlewares(),
-  );
+//   @override
+//   void dispatch(dynamic action) {
+//     Call call = Call(functionName: "hello", parameters: [action]);
+//     logger.log(call);
+//     super.dispatch(action);
+//   }
+// }
 
-  @override
-    void dispatch(dynamic action) {
-      Call call = Call(functionName: "hello", parameters: [action]);
-      logger.log(call);
-      super.dispatch(action);
+class MockMiddlewareManager extends Mock implements MiddlewareClass {}
+
+class MockStore extends Mock implements Store<AppState> {}
+
+class MockNextDispatcher {
+  List<dynamic> actions = List();
+
+  void call(action) {
+    actions.add(action);
   }
 }
+
 main() {
   group('MiddlewareManager', () {
-
     TestLogger logger;
     MockStore store;
-    MiddlewareManager sut;
-    
+    AddressController sut;
+
     setUp(() {
-      logger = TestLogger();
-      sut = MiddlewareManager(addressProvider: AddressProviderMock());
-      store = MockStore(logger: logger, manager: sut);
+      sut = AddressController(AddressProviderMock());
+      // store = MockStore(logger: logger, manager: sut);
+      store = MockStore();
     });
 
     tearDown(() {
@@ -80,14 +93,23 @@ main() {
       store = null;
     });
 
-    test('middleware to make 2 store dispatch calls when loadAddresses gets LoadAddressesAction', () async {
-      await sut.middlewares()[0](store, LoadAddressesAction(), (IsLoadingAction){});
-      expect(logger.logs.length, 2);
-    });
+    test(
+        'middleware to make 2 store dispatch calls when loadAddresses gets LoadAddressesAction',
+        () async {
+      final mockNextDispatcher = MockNextDispatcher();
+      await sut.loadAddresses(store, LoadAddressesAction(), mockNextDispatcher);
 
-    test('middleware to make 0 store dispatch calls when loadAddresses gets the wronge Action', () async {
-      await sut.middlewares()[0](store, IsLoadingAction, (IsLoadingAction){});
-      expect(logger.logs.length, 0);
+      expect(
+          verify(store.dispatch(argThat(isInstanceOf<LoadedAddressesAction>())))
+              .callCount,
+          1);
+      expect(
+          verify(store.dispatch(argThat(isInstanceOf<IsLoadingAction>())))
+              .callCount,
+          1);
+
+      expect(mockNextDispatcher.actions.length, 1);
+      expect(mockNextDispatcher.actions[0], isInstanceOf<IsLoadingAction>());
     });
   });
 }

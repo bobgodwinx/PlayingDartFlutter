@@ -1,13 +1,14 @@
-import 'package:address_book/app_state.dart';
-import 'package:address_book/providers/address_provider_type.dart';
-import 'package:address_book/address.dart';
+import 'dart:async';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
-import 'dart:async';
-
+import 'package:address_book/app_state.dart';
+import 'package:address_book/providers/address_provider_type.dart';
+import 'package:address_book/address_controller.dart';
+import 'package:address_book/address.dart';
 
 class MockStore extends Mock implements Store<AppState> {}
 
+class MockAddressController extends Mock implements AddressControllerType { }
 
 class MockAddressProvider implements AddressProviderType {
   List<Address> addressList = [

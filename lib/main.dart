@@ -8,7 +8,8 @@ import 'reducers.dart';
 import 'actions.dart';
 import 'add_address/add_address_screen.dart';
 import 'routes.dart';
-import 'midlwares.dart';
+import 'middleware_manager.dart';
+import 'address_controller.dart';
 import 'screen.dart';
 import 'providers/address_provider.dart';
 

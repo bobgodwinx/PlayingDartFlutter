@@ -16,8 +16,7 @@ class AddressController implements AddressControllerType {
   /// Loads address list.
   /// Dispatches an action IsLoadingAction when starts loading.
   /// When loading is finished IsLoadingAction and LoadedAddressesAction are dispatched.
-  loadAddresses(
-      Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
+  loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next) {
     addressProvider.load().then((addressList) {
       /// upon arrival of `addressList` we then use
       /// `store` to dispatch our next actions

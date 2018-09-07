@@ -4,16 +4,14 @@
 // find child widgets in the widget tree, read text, and verify that the values of widget properties
 // are correct.
 
+import 'package:address_book/add_address/add_address_screen.dart';
+import 'package:address_book/address.dart';
+import 'package:address_book/app_state.dart';
+import 'package:address_book/reducers.dart';
 import 'package:flutter/material.dart';
-import 'package:redux/redux.dart';
-
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:address_book/add_address/add_address_screen.dart';
-import 'package:address_book/reducers.dart';
-import 'package:address_book/app_state.dart';
-import 'package:address_book/address.dart';
+import 'package:redux/redux.dart';
 
 class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
@@ -24,11 +22,9 @@ class AddressBookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget addAddress = StoreBuilder<AppState>(
-        onInit: (Store<AppState> store) {},
-        builder: (context, store) => AddAddressScreen());
+        onInit: (Store<AppState> store) {}, builder: (context, store) => AddAddressScreen());
 
-    MaterialApp child =
-        MaterialApp(title: 'Hello', routes: {'/': (context) => addAddress});
+    MaterialApp child = MaterialApp(title: 'Hello', routes: {'/': (context) => addAddress});
     return StoreProvider(store: store, child: child);
   }
 }

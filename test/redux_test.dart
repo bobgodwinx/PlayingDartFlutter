@@ -2,13 +2,13 @@
 // Use of this source code is governed by the MIT license that can be found
 // in the LICENSE file.
 
+import 'package:address_book/actions.dart';
+import 'package:address_book/address.dart';
+import 'package:address_book/app_state.dart';
+import 'package:address_book/reducers.dart';
+import 'package:address_book/screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux/redux.dart';
-import 'package:address_book/reducers.dart';
-import 'package:address_book/app_state.dart';
-import 'package:address_book/address.dart';
-import 'package:address_book/actions.dart';
-import 'package:address_book/screen.dart';
 
 main() {
   group('State Reducer', () {

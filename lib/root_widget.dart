@@ -13,9 +13,10 @@ class RootWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// StoreConverter
-    var converter = (Store<AppState> store) { 
-      return  HomeScreenViewModel(list: store.state.placemarks, isLoading: store.state.isLoading); 
+    var converter = (Store<AppState> store) {
+      return HomeScreenViewModel(list: store.state.placemarks, isLoading: store.state.isLoading);
     };
+
     /// StoreConnector
     StoreConnector connector = StoreConnector<AppState, HomeScreenViewModel>(
       converter: converter,

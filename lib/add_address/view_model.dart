@@ -9,6 +9,5 @@ class AddAddressViewModel {
 
   String cityValidator(String item) => item.isEmpty ? "City is empty" : null;
 
-  String streetValidator(String item) =>
-      item.isEmpty ? "Street is empty" : null;
+  String streetValidator(String item) => item.isEmpty ? "Street is empty" : null;
 }

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../root_widget.dart';
 import '../routes.dart';
-
 import 'view_model.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RootWidget(
-        builder: (BuildContext context, HomeScreenViewModel viewModel) {
+    return RootWidget(builder: (BuildContext context, HomeScreenViewModel viewModel) {
       AppBar appBar = AppBar(
         title: Text('Berlin'),
         elevation: 0.0,
@@ -29,7 +27,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _loadingProgress() => LinearProgressIndicator();
-  
+
   Widget _addressList(HomeScreenViewModel viewModel) {
     final children = viewModel.list
         .map((item) => Padding(

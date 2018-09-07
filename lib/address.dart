@@ -1,5 +1,6 @@
 class Address {
   Address({this.city, this.street, this.number});
+
   String city;
   String street;
   int number;

@@ -27,8 +27,7 @@ class AppState {
   }
 
   @override
-  int get hashCode =>
-      placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
+  int get hashCode => placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
 
   @override
   bool operator ==(Object other) =>

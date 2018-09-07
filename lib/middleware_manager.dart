@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:address_book/address_controller.dart';
+import 'address_controller.dart';
 import 'app_state.dart';
 import 'actions.dart';
 

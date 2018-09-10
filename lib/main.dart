@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
+import 'home/home_screen.dart';
+import 'app_state.dart';
+import 'reducers.dart';
 import 'actions.dart';
 import 'add_address/add_address_screen.dart';
-import 'address_controller.dart';
-import 'app_state.dart';
-import 'home/home_screen.dart';
-import 'middleware_manager.dart';
-import 'providers/address_provider.dart';
-import 'reducers.dart';
 import 'routes.dart';
+import 'middleware_manager.dart';
+import 'address_controller.dart';
 import 'screen.dart';
+import 'providers/address_provider.dart';
 
 //Main App entrance
 void main() {
@@ -34,12 +34,14 @@ class AddressBookApp extends StatelessWidget {
           store.dispatch(LoadAddressesAction());
         },
         builder: (context, store) => HomeScreen());
+        
     Widget addAddress = StoreBuilder<AppState>(
-        onInit: (Store<AppState> store) {}, builder: (context, store) => AddAddressScreen(),);
+        onInit: (Store<AppState> store) {},
+        builder: (context, store) => AddAddressScreen());
 
     var routes = {
       Routes.home: (context) => home,
-      Routes.addAddress: (context) => addAddress,
+      Routes.addAddress: (context) => addAddress
     };
 
     MaterialApp child = MaterialApp(title: 'Hello', routes: routes);

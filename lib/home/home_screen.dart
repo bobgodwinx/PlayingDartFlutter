@@ -1,41 +1,46 @@
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
-
-import '../root_widget.dart';
+import '../app_state.dart';
 import '../routes.dart';
 import 'view_model.dart';
 
 class HomeScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return RootWidget(builder: (BuildContext context, HomeScreenViewModel viewModel) {
-      AppBar appBar = AppBar(
-        title: Text('Berlin'),
-        elevation: 0.0,
-      );
-      Widget body = _body(context, viewModel);
+    StoreConnector connector =  StoreConnector<AppState, HomeScreenViewModel>(converter: converter, 
+                                                                              builder: viewModelBuilder, 
+                                                                              distinct: false);
+    return connector;
+  }
 
-      return Scaffold(
-        appBar: appBar,
-        body: body,
-        floatingActionButton: _button(context),
-      );
-    });
+  Widget viewModelBuilder(BuildContext context, HomeScreenViewModel viewModel) {
+     AppBar appBar = AppBar(title: Text('Berlin'), elevation: 0.0);
+     Widget body = _body(context, viewModel);
+     return Scaffold(appBar: appBar, body: body, floatingActionButton: _button(context));
+   }
+
+  HomeScreenViewModel converter(Store<AppState> store) {
+    return HomeScreenViewModel(list: store.state.placemarks, isLoading: store.state.isLoading);
   }
 
   Widget _body(BuildContext context, HomeScreenViewModel viewModel) {
-    return viewModel.isLoading ? _loadingProgress() : _addressList(viewModel);
+    return viewModel.isLoading ? _loadingProgress() : _addressList(context, viewModel);
   }
 
   Widget _loadingProgress() => LinearProgressIndicator();
 
-  Widget _addressList(HomeScreenViewModel viewModel) {
-    final children = viewModel.list
-        .map((item) => Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text('City: ${item.city}, Street: ${item.street}')))
-        .toList();
-    ListView childView = ListView(children: children);
-    return Card(child: childView);
+  Widget _addressList(BuildContext context, HomeScreenViewModel viewModel) {
+
+    Card itemBuilder(BuildContext context, int index) {
+      Column colunm = Column(children:[
+        Padding(padding: EdgeInsets.all(5.0), child: Text('City: ${viewModel.list[index].city}, Street: ${viewModel.list[index].street}'))
+      ]);
+      return Card(child: colunm);
+    }
+
+    return ListView.builder(itemBuilder: itemBuilder, itemCount: viewModel.list.length);
   }
 
   Widget _button(BuildContext context) {

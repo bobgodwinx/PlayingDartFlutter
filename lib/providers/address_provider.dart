@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../address.dart';
+import '../PreferencesRepository.dart';
 import 'address_provider_type.dart';
 
 class AddressProvider implements AddressProviderType {
@@ -10,16 +11,22 @@ class AddressProvider implements AddressProviderType {
     Address(city: 'Berlin', street: 'paul-lincke-uffer', number: 39),
   ];
 
-  AddressProvider() {}
+  AddressProvider();
+
+  PrefernecesStorage _prefsStorage = PrefernecesStorage();
 
   factory AddressProvider.instance() => AddressProvider();
 
   Future<List<Address>> load() async {
     // throw Exception('an error!');
-    return Future.delayed(Duration(seconds: 2), () => addressList);
+    return _prefsStorage.loadAddressList();
   }
 
-  Future<bool> save() async {
-    return Future.delayed(Duration(seconds: 1), () => true);
+  Future<bool> save(Address address) async {
+    _prefsStorage.saveAddresses(address).then((_) {
+      return true;
+    }).catchError((_) {
+      return false;
+    });
   }
 }

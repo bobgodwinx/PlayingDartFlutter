@@ -3,26 +3,29 @@ import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../routes.dart';
-import 'view_model.dart';
+import 'home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StoreConnector connector =  StoreConnector<AppState, HomeScreenViewModel>(converter: converter, 
-                                                                              builder: viewModelBuilder, 
-                                                                              distinct: false);
-    return connector;
-  }
+    /// Returns a StatelessWidget that is updateable 
+    /// Has access to current State<AppState>
+    return StoreConnector<AppState, HomeScreenViewModel>(converter: _converter, 
+                                                        builder: _builder, 
+                                                        distinct: false);
 
-  Widget viewModelBuilder(BuildContext context, HomeScreenViewModel viewModel) {
+  }
+ /// Returns a Widget or View when given a context + viewModel
+  Widget _builder(BuildContext context, HomeScreenViewModel viewModel) {
      AppBar appBar = AppBar(title: Text('Berlin'), elevation: 0.0);
      Widget body = _body(context, viewModel);
-     return Scaffold(appBar: appBar, body: body, floatingActionButton: _button(context));
+     return Scaffold(appBar: appBar, body: body, floatingActionButton: _button(context, viewModel));
    }
 
-  HomeScreenViewModel converter(Store<AppState> store) {
-    return HomeScreenViewModel(list: store.state.placemarks, isLoading: store.state.isLoading);
+  /// Returns a viewModel when given a store
+  HomeScreenViewModel _converter(Store<AppState> store) {
+    return HomeScreenViewModel.initWithStore(store);
   }
 
   Widget _body(BuildContext context, HomeScreenViewModel viewModel) {
@@ -43,13 +46,9 @@ class HomeScreen extends StatelessWidget {
     return ListView.builder(itemBuilder: itemBuilder, itemCount: viewModel.list.length);
   }
 
-  Widget _button(BuildContext context) {
-    Color color = Theme.of(context).primaryColor;
-
+  Widget _button(BuildContext context, HomeScreenViewModel viewModel) {
     return FloatingActionButton(
-      onPressed: () {
-        Navigator.pushNamed(context, Routes.addAddress);
-      },
+      onPressed: () => Navigator.pushNamed(context, Routes.addAddress),
       child: Icon(Icons.add),
       tooltip: 'some tooltip',
     );

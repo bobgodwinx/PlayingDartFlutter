@@ -37,13 +37,14 @@ class AddressController implements AddressControllerType {
   }
 
   /// Saves address list.
-  /// Dispatches an action IsLoadingAction when starts saving.
-  /// When saving is finished IsLoadingAction is dispatched.
+  /// Dispatches an action IsLoadingAction(true) when starts saving.
+  /// When saving is finished IsLoadingAction(false) is dispatched.
   saveAddresses(Store<AppState> store, AddAddressAction action, NextDispatcher next) {
     store.dispatch(IsLoadingAction(true));
 
-    _addressProvider.save().then((saved) {
-      /// upon arrival of `addressList` we then use
+    final addressList = store.state.placemarks;
+    _addressProvider.save(action.address).then((saved) {
+      /// upon saving the addressList we then use
       /// `store` to dispatch our next actions
       store.dispatch(IsLoadingAction(false));
     }).catchError((e) {

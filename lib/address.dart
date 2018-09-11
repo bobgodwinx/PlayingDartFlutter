@@ -8,6 +8,17 @@ class Address {
   factory Address.initialAddress() =>
       Address(city: 'Berlin', number: 39, street: 'Paul-Linke Ufer');
 
+  Address.fromJson(Map<String, dynamic> json)
+      : city = json['city'],
+        number = json['number'],
+        street = json['street'];
+
+  Map toJson() => {
+        'city': this.city,
+        'number': this.number,
+        'street': this.street,
+      };
+
   @override
   String toString() {
     return 'street: $street, number: $number, city: $city';

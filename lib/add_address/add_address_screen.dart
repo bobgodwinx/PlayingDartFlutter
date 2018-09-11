@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-
-import '../actions.dart';
 import '../address.dart';
 import '../app_state.dart';
-import 'view_model.dart';
+import 'add_address_view_model.dart';
 
 class AddAddressScreen extends StatelessWidget {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -20,18 +18,18 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Returns a StatelessWidget that is updateable 
+    /// Has access to current State<AppState>
     return StoreConnector<AppState, AddAddressViewModel>(
       converter: _converter,
       builder: _builder,
     );
   }
-
+  /// Returns a viewModel Typeof<AddAddressViewModel> when given a store
   AddAddressViewModel _converter(Store<AppState> store) {
-    return AddAddressViewModel(
-        addressHandler: (Address address) =>
-            store.dispatch(AddAddressAction(address)));
+    return AddAddressViewModel.initWithStore(store);
   }
-
+  /// Returns a Widget or View when given a context + viewModel
   Widget _builder(BuildContext context, AddAddressViewModel viewModel) {
     AppBar appBar = AppBar(
       title: Text('Add Address'),
@@ -67,13 +65,13 @@ class AddAddressScreen extends StatelessWidget {
         children: [
           streetField,
           cityField,
-          _button(context, viewModel.addressHandler)
+          _button(context, viewModel)
         ],
       ),
     );
   }
 
-  Widget _button(BuildContext context, AddAddressHandler addressHandler) {
+  Widget _button(BuildContext context,  AddAddressViewModel viewModel) {
     Color color = Theme.of(context).primaryColor;
     RaisedButton button = RaisedButton(
       child: Text('Add'),
@@ -83,8 +81,8 @@ class AddAddressScreen extends StatelessWidget {
             city: _cityKey.currentState.value,
             street: _streetKey.currentState.value,
           );
-
-          addressHandler(address);
+          /// Communicates a Typeof<Address> to <ViewModel> 
+          viewModel.addressHandler(address);
           Navigator.pop(context);
         }
       },

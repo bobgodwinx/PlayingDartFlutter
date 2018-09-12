@@ -11,17 +11,7 @@ class MockStore extends Mock implements Store<AppState> {}
 
 class MockAddressController extends Mock implements AddressControllerType {}
 
-class MockAddressProvider implements AddressProviderType {
-  List<Address> addressList = [Address(city: 'Berlin', street: 'Walkenstrasse', number: 10)];
-
-  Future<List<Address>> load() async {
-    return addressList;
-  }
-
-  Future<bool> save() async {
-    return true;
-  }
-}
+class MockAddressProvider extends Mock implements AddressProviderType {}
 
 class MockNextDispatcher {
   List<dynamic> actions = List();

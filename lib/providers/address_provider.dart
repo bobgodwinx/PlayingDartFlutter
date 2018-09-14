@@ -11,8 +11,6 @@ class AddressProvider implements AddressProviderType {
 //todo use dependency injection?
   Repository _repositry = FirebaseRepository();
 
-  AddressProvider.instance();
-
   Future<List<Address>> load() async {
     // throw Exception('an error!');
     return await _repositry.loadAddressList();

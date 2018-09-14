@@ -13,7 +13,7 @@ class Address {
         number = json['number'],
         street = json['street'];
 
-  Map toJson() => {
+  Map<String, dynamic> toJson() => {
         'city': this.city,
         'number': this.number,
         'street': this.street,

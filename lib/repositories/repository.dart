@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import '../address.dart';
 
 abstract class Repository {
-  loadAddressList();
-  addAddress(Address address);
+  Future<List<Address>> loadAddressList();
+  Future<bool> addAddress(Address address);
 }

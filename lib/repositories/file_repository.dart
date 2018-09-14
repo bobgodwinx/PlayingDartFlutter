@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'address.dart';
+import '../address.dart';
 
-class FileStorage {
+class FileRepository {
   static const _jsonRoot = 'addresses';
 
   final String fileName;
   final Future<Directory> Function() getDirectory;
 
-  const FileStorage(
+  const FileRepository(
     this.fileName,
     this.getDirectory,
   );

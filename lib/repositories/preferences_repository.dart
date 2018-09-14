@@ -1,40 +1,41 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'address.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PrefernecesStorage {
+import '../address.dart';
+import 'repository.dart';
+
+class PrefernecesStorage implements Repository{
   static const _jsonRoot = 'addresses';
 
   Map _json;
 
   Future<List<Address>> loadAddressList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String jsonString = prefs.getString('address_list') ?? '';
+    String jsonString = prefs.getString('address_list');
+    List<Address> addressList = [];
+    if (jsonString != null) {
+      _json = JsonDecoder().convert(jsonString);
 
-    _json = JsonDecoder().convert(jsonString);
-
-    List<Address> addressList = _json[_jsonRoot]
-        .map<Address>((item) => Address.fromJson(item))
-        .toList();
+      addressList = _json[_jsonRoot]
+          .map<Address>((item) => Address.fromJson(item))
+          .toList();
+    }
 
     return addressList;
   }
 
-  saveAddresses(Address address) async {
+  addAddress(Address address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String jsonString = prefs.getString('address_list');
 
-    if (jsonString.isNotEmpty) {
+    List<Address> addressList = [];
+    if (jsonString != null) {
       _json = JsonDecoder().convert(jsonString);
+    } else {
+      _json[_jsonRoot].map<Address>((item) => Address.fromJson(item)).toList();
     }
-    List<Address> addressList = _json == null
-        ? []
-        : _json[_jsonRoot]
-            .map<Address>((item) => Address.fromJson(item))
-            .toList();
 
     addressList.add(address);
 
@@ -44,7 +45,5 @@ class PrefernecesStorage {
         'addresses': addressList.map((address) => address.toJson()).toList(),
       }),
     );
-
-    return true;
   }
 }

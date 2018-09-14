@@ -18,12 +18,10 @@ class MiddlewareManager implements StateMiddleware {
   Middleware<AppState> loggingMiddleware;
 
   MiddlewareManager(AddressControllerType controller) {
-    loadAddressesMiddleware =
-        TypedMiddleware<AppState, LoadAddressesAction>(controller.loadAddresses);
-    addAddressMiddleware = TypedMiddleware<AppState, AddAddressAction>(controller.saveAddresses);
+    loadAddressesMiddleware = TypedMiddleware<AppState, LoadAddressesAction>(controller.loadAddresses);
+    addAddressMiddleware = TypedMiddleware<AppState, AddAddressAction>(controller.addAddress);
     loggingMiddleware = TypedMiddleware<AppState, dynamic>(controller.logging);
   }
 
-  List<Middleware> middlewares() =>
-      [loggingMiddleware, loadAddressesMiddleware, addAddressMiddleware];
+  List<Middleware> middlewares() => [loggingMiddleware, loadAddressesMiddleware, addAddressMiddleware];
 }

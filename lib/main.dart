@@ -23,7 +23,7 @@ class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
     ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
-    middleware: MiddlewareManager(AddressController(AddressProvider.instance())).middlewares(),
+    middleware: MiddlewareManager(AddressController(AddressProvider())).middlewares(),
   );
 
   @override

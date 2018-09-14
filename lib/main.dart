@@ -12,6 +12,7 @@ import 'middleware_manager.dart';
 import 'address_controller.dart';
 import 'screen.dart';
 import 'providers/address_provider.dart';
+import 'repositories/firebase_repository.dart';
 
 //Main App entrance
 void main() {
@@ -23,7 +24,7 @@ class AddressBookApp extends StatelessWidget {
   final Store<AppState> store = Store(
     ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
-    middleware: MiddlewareManager(AddressController(AddressProvider())).middlewares(),
+    middleware: MiddlewareManager(AddressController(AddressProvider(FirebaseRepository()))).middlewares(),
   );
 
   @override
@@ -34,7 +35,7 @@ class AddressBookApp extends StatelessWidget {
           store.dispatch(LoadAddressesAction());
         },
         builder: (context, store) => HomeScreen());
-        
+
     Widget addAddress = StoreBuilder<AppState>(
         onInit: (Store<AppState> store) {},
         builder: (context, store) => AddAddressScreen());

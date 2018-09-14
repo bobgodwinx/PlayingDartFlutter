@@ -11,3 +11,4 @@ build/
 
 *.log
 .*
+android/app/google-services.json

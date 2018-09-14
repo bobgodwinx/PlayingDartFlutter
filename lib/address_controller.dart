@@ -7,7 +7,7 @@ import 'providers/address_provider_type.dart';
 abstract class AddressControllerType {
   loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next);
 
-  saveAddresses(Store<AppState> store, AddAddressAction action, NextDispatcher next);
+  addAddress(Store<AppState> store, AddAddressAction action, NextDispatcher next);
 
   logging(Store<AppState> store, dynamic action, NextDispatcher next);
 }
@@ -36,15 +36,14 @@ class AddressController implements AddressControllerType {
     next(IsLoadingAction(true));
   }
 
-  /// Saves address list.
-  /// Dispatches an action IsLoadingAction(true) when starts saving.
-  /// When saving is finished IsLoadingAction(false) is dispatched.
-  saveAddresses(Store<AppState> store, AddAddressAction action, NextDispatcher next) {
+  /// Add a new address to address list.
+  /// Dispatches an action IsLoadingAction(true) before adding.
+  /// When add is added dispatches IsLoadingAction(false).
+  addAddress(Store<AppState> store, AddAddressAction action, NextDispatcher next) {
     store.dispatch(IsLoadingAction(true));
 
-    final addressList = store.state.placemarks;
     _addressProvider.save(action.address).then((saved) {
-      /// upon saving the addressList we then use
+      /// upon adding the address to addressList we use
       /// `store` to dispatch our next actions
       store.dispatch(IsLoadingAction(false));
     }).catchError((e) {

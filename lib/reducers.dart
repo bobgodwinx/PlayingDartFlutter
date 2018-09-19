@@ -33,7 +33,7 @@ class ReducerManager implements StateReducer {
   ReducerManager() {
     /// Placemarks Action closures
     List<Address> addPlacemarks(List<Address> placemarks, AddAddressAction action) =>
-        placemarks..add(action.address);
+        List.of(placemarks)..add(action.address);
     List<Address> loadPlacemarks(List<Address> placemarks, LoadedAddressesAction action) =>
         action.addressList;
 

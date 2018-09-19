@@ -16,18 +16,19 @@ class AppState {
 
   AppState copyWith({bool isLoading, Screen currentScreen, List placemarks}) {
     return AppState(
-        isLoading: isLoading ?? this.isLoading,
-        currentScreen: currentScreen ?? this.currentScreen,
-        placemarks: placemarks ?? this.placemarks);
+      isLoading: isLoading ?? this.isLoading,
+      currentScreen: currentScreen ?? this.currentScreen,
+      placemarks: placemarks ?? this.placemarks,
+    );
   }
 
   @override
-  String toString() {
-    return '$placemarks, isLoading: $isLoading, currentScreen: $currentScreen';
-  }
+  String toString() =>
+      '$placemarks, isLoading: $isLoading, currentScreen: $currentScreen';
 
   @override
-  int get hashCode => placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
+  int get hashCode =>
+      placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -36,5 +37,5 @@ class AppState {
           runtimeType == other.runtimeType &&
           currentScreen == other.currentScreen &&
           isLoading == other.isLoading &&
-          currentScreen == other.currentScreen;
+          placemarks == other.placemarks;
 }

@@ -41,7 +41,9 @@ main() {
       AppState expectedState = AppState.initialState();
       expectedState.placemarks.add(address);
 
-      expect(store.state, expectedState);
+      expect(store.state.currentScreen, expectedState.currentScreen);
+      expect(store.state.isLoading, expectedState.isLoading);
+      expect(store.state.placemarks, expectedState.placemarks);
     });
 
     test('LoadCurrentScreenAction should set currentScreen', () {
@@ -52,8 +54,7 @@ main() {
       );
       store.dispatch(ScreenUpdateAction(screen: Screen.add));
 
-      AppState expectedState = appState.copyWith(currentScreen: Screen.add);
-      expect(store.state, expectedState);
+      expect(store.state.currentScreen, Screen.add);
     });
   });
 }

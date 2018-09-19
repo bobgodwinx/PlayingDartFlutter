@@ -25,6 +25,7 @@ class AddressBookApp extends StatelessWidget {
     ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
     middleware: MiddlewareManager(AddressController(AddressProvider(FirebaseRepository()))).middlewares(),
+    distinct: true,
   );
 
   @override

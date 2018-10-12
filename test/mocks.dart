@@ -1,8 +1,5 @@
-import 'dart:async';
-
-import 'package:address_book/address.dart';
-import 'package:address_book/address_controller.dart';
 import 'package:address_book/app_state.dart';
+import 'package:address_book/controllers/address_controller.dart';
 import 'package:address_book/providers/address_provider_type.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';

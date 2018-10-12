@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:address_book/actions.dart';
-import 'package:address_book/address_controller.dart';
+import 'package:address_book/controllers/address_controller.dart';
 import 'package:address_book/address.dart';
 
 import 'mocks.dart';

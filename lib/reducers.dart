@@ -1,9 +1,8 @@
+import 'package:address_book/actions.dart';
+import 'package:address_book/address.dart';
+import 'package:address_book/app_state.dart';
+import 'package:address_book/screen.dart';
 import 'package:redux/redux.dart';
-
-import 'actions.dart';
-import 'address.dart';
-import 'app_state.dart';
-import 'screen.dart';
 
 /// Contract `StateReducer`
 /// must be implemented by the

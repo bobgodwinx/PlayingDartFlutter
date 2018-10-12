@@ -23,12 +23,10 @@ class AppState {
   }
 
   @override
-  String toString() =>
-      '$placemarks, isLoading: $isLoading, currentScreen: $currentScreen';
+  String toString() => '$placemarks, isLoading: $isLoading, currentScreen: $currentScreen';
 
   @override
-  int get hashCode =>
-      placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
+  int get hashCode => placemarks.hashCode ^ isLoading.hashCode ^ currentScreen.hashCode;
 
   @override
   bool operator ==(Object other) =>

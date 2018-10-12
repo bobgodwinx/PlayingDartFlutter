@@ -9,7 +9,7 @@ import 'home_view_model.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    /// Returns a StatelessWidget that is updateable
+    /// Returns a StatelessWidget that is updatable
     /// Has access to current State<AppState>
     return StoreConnector<AppState, HomeScreenViewModel>(
         converter: _converter, builder: _builder, distinct: false);

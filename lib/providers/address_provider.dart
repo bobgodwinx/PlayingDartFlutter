@@ -18,7 +18,7 @@ class AddressProvider implements AddressProviderType {
   }
 
   Future<bool> save(Address address) async {
-    await _repository.addAddress(address).then((_) {
+    return await _repository.addAddress(address).then((_) {
       return true;
     }).catchError((_) {
       return false;

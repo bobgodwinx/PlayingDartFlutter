@@ -1,8 +1,7 @@
+import 'package:address_book/actions.dart';
+import 'package:address_book/app_state.dart';
+import 'package:address_book/providers/address_provider_type.dart';
 import 'package:redux/redux.dart';
-
-import 'actions.dart';
-import 'app_state.dart';
-import 'providers/address_provider_type.dart';
 
 abstract class AddressControllerType {
   loadAddresses(Store<AppState> store, LoadAddressesAction action, NextDispatcher next);

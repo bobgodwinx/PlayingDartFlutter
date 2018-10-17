@@ -1,9 +1,9 @@
+import 'package:address_book/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-import '../app_state.dart';
-import '../routes.dart';
+import 'package:address_book/redux/app_state.dart';
 import 'home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {

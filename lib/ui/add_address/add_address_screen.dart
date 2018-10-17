@@ -1,8 +1,8 @@
+import 'package:address_book/address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import '../address.dart';
-import '../app_state.dart';
+import 'package:address_book/redux/app_state.dart';
 import 'add_address_view_model.dart';
 
 class AddAddressScreen extends StatelessWidget {

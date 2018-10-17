@@ -1,5 +1,5 @@
 import 'package:address_book/address.dart';
-import 'package:address_book/app_state.dart';
+import 'package:address_book/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class HomeScreenViewModel {

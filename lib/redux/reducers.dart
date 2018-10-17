@@ -1,6 +1,7 @@
-import 'package:address_book/actions.dart';
 import 'package:address_book/address.dart';
-import 'package:address_book/app_state.dart';
+import 'package:address_book/models/account.dart';
+import 'package:address_book/redux/actions.dart';
+import 'package:address_book/redux/app_state.dart';
 import 'package:address_book/screen.dart';
 import 'package:redux/redux.dart';
 
@@ -13,6 +14,7 @@ abstract class StateReducer {
   Reducer<List<Address>> placemarksReducer;
   Reducer<bool> loadingReducer;
   Reducer<Screen> screenReducer;
+  Reducer<User> userReducer;
 }
 
 ///
@@ -24,9 +26,14 @@ class ReducerManager implements StateReducer {
         placemarks: placemarksReducer(state.placemarks, action));
   }
 
+  @override
   Reducer<List<Address>> placemarksReducer;
+  @override
   Reducer<bool> loadingReducer;
+  @override
   Reducer<Screen> screenReducer;
+  @override
+  Reducer<User> userReducer;
 
   /// Todo - Come back for dependency injection.
   ReducerManager() {
@@ -56,5 +63,18 @@ class ReducerManager implements StateReducer {
     screenReducer = combineReducers<Screen>([
       TypedReducer<Screen, ScreenUpdateAction>(screen),
     ]);
+
+    userReducer = combineReducers<User>([
+      TypedReducer<User, SignupSucceededAction>(signupUser),
+      TypedReducer<User, SigninSucceededAction>(signinUser),
+    ]);
+  }
+
+  User signupUser(User state, SignupSucceededAction action) {
+    return action.user;
+  }
+
+  User signinUser(User state, SigninSucceededAction action) {
+    return action.user;
   }
 }

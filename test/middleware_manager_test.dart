@@ -1,4 +1,4 @@
-import 'package:address_book/middleware_manager.dart';
+import 'package:address_book/redux/middleware_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'mocks.dart';
@@ -10,7 +10,7 @@ main() {
 
     setUp(() {
       mockAddressController = MockAddressController();
-      sut = MiddlewareManager(mockAddressController);
+      sut = MiddlewareManager(addressController: mockAddressController);
     });
 
     tearDown(() {

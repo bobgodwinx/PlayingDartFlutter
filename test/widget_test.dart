@@ -4,10 +4,10 @@
 // find child widgets in the widget tree, read text, and verify that the values of widget properties
 // are correct.
 
-import 'package:address_book/add_address/add_address_screen.dart';
 import 'package:address_book/address.dart';
-import 'package:address_book/app_state.dart';
-import 'package:address_book/reducers.dart';
+import 'package:address_book/redux/app_state.dart';
+import 'package:address_book/redux/reducers.dart';
+import 'package:address_book/ui/add_address/add_address_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';

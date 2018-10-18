@@ -65,16 +65,16 @@ class ReducerManager implements StateReducer {
     ]);
 
     userReducer = combineReducers<User>([
-      TypedReducer<User, SignupSucceededAction>(signupUser),
-      TypedReducer<User, SigninSucceededAction>(signinUser),
+      TypedReducer<User, SignUpSucceededAction>(signupUser),
+      TypedReducer<User, SignInSucceededAction>(signinUser),
     ]);
   }
 
-  User signupUser(User state, SignupSucceededAction action) {
+  User signupUser(User state, SignUpSucceededAction action) {
     return action.user;
   }
 
-  User signinUser(User state, SigninSucceededAction action) {
+  User signinUser(User state, SignInSucceededAction action) {
     return action.user;
   }
 }

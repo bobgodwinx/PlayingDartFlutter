@@ -40,35 +40,40 @@ class IsLoadingAction extends LoadAction {
   IsLoadingAction(this.isLoading);
 }
 
-class SignupAction extends LoadAction {
+class SignUpAction extends LoadAction {
   String email;
   String password;
 
-  SignupAction({@required this.email, @required this.password});
+  SignUpAction({@required this.email, @required this.password});
 }
 
-class SigninAction extends LoadAction {
+class SignInAction extends LoadAction {
   String email;
   String password;
 
-  SigninAction({@required this.email, @required this.password});
+  SignInAction({@required this.email, @required this.password});
 }
 
-class SignupSucceededAction extends LoadAction {
+class SignUpSucceededAction extends LoadAction {
   User user;
 
-  SignupSucceededAction(this.user);
+  SignUpSucceededAction(this.user);
 }
 
-class SigninSucceededAction extends LoadAction {
+class SignInSucceededAction extends LoadAction {
   User user;
 
-  SigninSucceededAction(this.user);
-}
-class SignupErrorAction extends LoadAction {
-  User user;
-
-  SignupErrorAction(this.user);
+  SignInSucceededAction(this.user);
 }
 
+class SignInErrorAction extends LoadAction {
+  Error error;
 
+  SignInErrorAction(this.error);
+}
+
+class SignUpErrorAction extends LoadAction {
+  Error error;
+
+  SignUpErrorAction(this.error);
+}

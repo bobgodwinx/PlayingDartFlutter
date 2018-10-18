@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import '../address.dart';
-import '../repositories/repository.dart';
+import 'package:address_book/address.dart';
+import 'package:address_book/repositories/repository.dart';
+import 'package:address_book/resource.dart';
 
-import 'address_provider_type.dart';
+abstract class AddressProviderType implements Resource<List<Address>> {}
 
 class AddressProvider implements AddressProviderType {
   Repository _repository;

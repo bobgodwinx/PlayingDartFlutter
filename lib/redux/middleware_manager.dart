@@ -28,8 +28,8 @@ class MiddlewareManager implements StateMiddleware {
     addAddressMiddleware =
         TypedMiddleware<AppState, AddAddressAction>(addressController.addAddress);
     loggingMiddleware = TypedMiddleware<AppState, dynamic>(addressController.logging);
-    signinMiddleware = TypedMiddleware<AppState, SigninAction>(accountController.signin);
-    signupMiddleware = TypedMiddleware<AppState, SignupAction>(accountController.signup);
+    signinMiddleware = TypedMiddleware<AppState, SignInAction>(accountController.signIn);
+    signupMiddleware = TypedMiddleware<AppState, SignUpAction>(accountController.signUp);
   }
 
   List<Middleware> middlewares() => [

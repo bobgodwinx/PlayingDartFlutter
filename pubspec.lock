@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  firebase_auth:
+    dependency: "direct main"
+    description:
+      name: firebase_auth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.20"
   firebase_core:
     dependency: transitive
     description:
@@ -97,6 +104,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_crashlytics:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: ee4d8466955b45c1fd486534e7d2e5493e7eb5a5
+      url: "git@github.com-surengrig:surengrig/flutter_crashlytics.git"
+    source: git
+    version: "0.0.6"
   flutter_redux:
     dependency: "direct main"
     description:
@@ -437,5 +453,5 @@ packages:
     source: hosted
     version: "2.1.15"
 sdks:
-  dart: ">=2.0.0-dev.68.0 <3.0.0"
+  dart: ">=2.0.0 <3.0.0"
   flutter: ">=0.2.4 <2.0.0"

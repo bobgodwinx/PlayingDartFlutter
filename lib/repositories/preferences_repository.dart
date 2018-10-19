@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:address_book/address.dart';
+import 'package:address_book/repositories/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../address.dart';
-import 'repository.dart';
-
-class PrefernecesStorage implements Repository{
+class PrefernecesStorage implements Repository {
   static const _jsonRoot = 'addresses';
 
   Map _json;
@@ -18,9 +17,7 @@ class PrefernecesStorage implements Repository{
     if (jsonString != null) {
       _json = JsonDecoder().convert(jsonString);
 
-      addressList = _json[_jsonRoot]
-          .map<Address>((item) => Address.fromJson(item))
-          .toList();
+      addressList = _json[_jsonRoot].map<Address>((item) => Address.fromJson(item)).toList();
     }
 
     return addressList;
@@ -46,4 +43,6 @@ class PrefernecesStorage implements Repository{
       }),
     );
   }
+
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

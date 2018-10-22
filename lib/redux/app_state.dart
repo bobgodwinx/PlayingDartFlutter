@@ -45,5 +45,6 @@ class AppState {
           runtimeType == other.runtimeType &&
           currentScreen == other.currentScreen &&
           isLoading == other.isLoading &&
-          placemarks == other.placemarks;
+          placemarks == other.placemarks &&
+          user == other.user;
 }

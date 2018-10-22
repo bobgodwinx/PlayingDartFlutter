@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:address_book/controllers/account_controller.dart';
 import 'package:address_book/controllers/address_controller.dart';
-import 'package:address_book/redux/middleware_manager.dart';
+import 'package:address_book/keys.dart';
 import 'package:address_book/providers/account_provider.dart';
 import 'package:address_book/providers/address_provider.dart';
 import 'package:address_book/redux/actions.dart';
 import 'package:address_book/redux/app_state.dart';
+import 'package:address_book/redux/middleware_manager.dart';
 import 'package:address_book/redux/reducers.dart';
 import 'package:address_book/repositories/firebase_repository.dart';
 import 'package:address_book/routes.dart';
@@ -49,8 +50,10 @@ class AddressBookApp extends StatelessWidget {
     ReducerManager().appStateReducer,
     initialState: AppState.initialState(),
     middleware: MiddlewareManager(
-      addressController: AddressController(AddressProvider(FirebaseRepository.instance)),
-      accountController: AccountController(AccountProvider(FirebaseRepository.instance)),
+      addressController:
+          AddressController(AddressProvider(FirebaseRepository.instance)),
+      accountController:
+          AccountController(AccountProvider(FirebaseRepository.instance)),
     ).middlewares(),
     distinct: true,
   );
@@ -70,7 +73,6 @@ class AddressBookApp extends StatelessWidget {
       builder: (context, store) => AddAddressScreen(),
     );
 
-
     Widget signup = StoreBuilder<AppState>(
       onInit: (Store<AppState> store) {},
       builder: (context, store) => SignupScreen(),
@@ -82,13 +84,17 @@ class AddressBookApp extends StatelessWidget {
     );
 
     final routes = {
-//      Routes.signIn: (context) => signIn,
-//      Routes.account: (context) => signup,
+      Routes.signIn: (context) => signIn,
+      Routes.account: (context) => signup,
       Routes.home: (context) => home,
       Routes.addAddress: (context) => addAddress,
     };
 
-    MaterialApp child = MaterialApp(title: 'Hello', routes: routes);
+    MaterialApp child = MaterialApp(
+      title: 'Hello',
+      navigatorKey: AppKey.navigatorKey,
+      routes: routes,
+    );
     return StoreProvider(store: store, child: child);
   }
 }

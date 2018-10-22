@@ -1,12 +1,16 @@
+import 'package:address_book/keys.dart';
 import 'package:address_book/providers/account_provider.dart';
 import 'package:address_book/redux/actions.dart';
 import 'package:address_book/redux/app_state.dart';
+import 'package:address_book/routes.dart';
 import 'package:redux/redux.dart';
 
 abstract class AccountControllerType {
   void signUp(Store<AppState> store, SignUpAction action, NextDispatcher next);
 
   void signIn(Store<AppState> store, SignInAction action, NextDispatcher next);
+
+  void signInSucceeded(Store<AppState> store, SignInSucceededAction action, NextDispatcher next);
 }
 
 class AccountController implements AccountControllerType {
@@ -36,5 +40,11 @@ class AccountController implements AccountControllerType {
       store.dispatch(SignInErrorAction(onError));
     });
     next(action);
+  }
+
+  @override
+  void signInSucceeded(Store<AppState> store, SignInSucceededAction action, NextDispatcher next) {
+    next(action);
+    AppKey.navigatorKey.currentState.pushNamed(Routes.home);
   }
 }

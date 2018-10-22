@@ -18,8 +18,10 @@ class MiddlewareManager implements StateMiddleware {
   Middleware<AppState> loadAddressesMiddleware;
   Middleware<AppState> addAddressMiddleware;
   Middleware<AppState> loggingMiddleware;
+
   Middleware<AppState> signinMiddleware;
   Middleware<AppState> signupMiddleware;
+  Middleware<AppState> signInSucceededMiddleware;
 
   MiddlewareManager(
       {AddressControllerType addressController, AccountControllerType accountController}) {
@@ -28,8 +30,11 @@ class MiddlewareManager implements StateMiddleware {
     addAddressMiddleware =
         TypedMiddleware<AppState, AddAddressAction>(addressController.addAddress);
     loggingMiddleware = TypedMiddleware<AppState, dynamic>(addressController.logging);
+
+/// Account Middlewares
     signinMiddleware = TypedMiddleware<AppState, SignInAction>(accountController.signIn);
     signupMiddleware = TypedMiddleware<AppState, SignUpAction>(accountController.signUp);
+    signInSucceededMiddleware = TypedMiddleware<AppState, SignInSucceededAction>(accountController.signInSucceeded);
   }
 
   List<Middleware> middlewares() => [
@@ -38,5 +43,6 @@ class MiddlewareManager implements StateMiddleware {
         addAddressMiddleware,
         signinMiddleware,
         signupMiddleware,
+        signInSucceededMiddleware,
       ];
 }

@@ -1,5 +1,4 @@
 import 'package:address_book/redux/app_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -65,7 +64,11 @@ class SignInScreen extends StatelessWidget {
     return Form(
       key: _formKey,
       child: ListView(
-        children: [emailField, passwordField, _button(context, viewModel)],
+        children: [
+          emailField,
+          passwordField,
+          _button(context, viewModel),
+        ],
       ),
     );
   }

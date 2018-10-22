@@ -20,10 +20,16 @@ abstract class StateReducer {
 ///
 class ReducerManager implements StateReducer {
   AppState appStateReducer(AppState state, dynamic action) {
+    final currentScreen = screenReducer(state.currentScreen, action);
+    final isLoading = loadingReducer(state.isLoading, action);
+    final placemarks = placemarksReducer(state.placemarks, action);
+    final user = userReducer(state.user, action);
     return AppState(
-        currentScreen: screenReducer(state.currentScreen, action),
-        isLoading: loadingReducer(state.isLoading, action),
-        placemarks: placemarksReducer(state.placemarks, action));
+      currentScreen: currentScreen,
+      isLoading: isLoading,
+      placemarks: placemarks,
+      user: user,
+    );
   }
 
   @override
@@ -38,9 +44,11 @@ class ReducerManager implements StateReducer {
   /// Todo - Come back for dependency injection.
   ReducerManager() {
     /// Placemarks Action closures
-    List<Address> addPlacemarks(List<Address> placemarks, AddAddressAction action) =>
+    List<Address> addPlacemarks(
+            List<Address> placemarks, AddAddressAction action) =>
         List.of(placemarks)..add(action.address);
-    List<Address> loadPlacemarks(List<Address> placemarks, LoadedAddressesAction action) =>
+    List<Address> loadPlacemarks(
+            List<Address> placemarks, LoadedAddressesAction action) =>
         action.addressList;
 
     /// Placemarks Reducer
@@ -53,11 +61,14 @@ class ReducerManager implements StateReducer {
     bool loading(bool currentState, LoadAction action) => action.isLoading;
 
     /// loading Reducer
-    loadingReducer = combineReducers<bool>(
-        [TypedReducer<bool, LoadAction>(loading), TypedReducer<bool, IsLoadingAction>(loading)]);
+    loadingReducer = combineReducers<bool>([
+      TypedReducer<bool, LoadAction>(loading),
+      TypedReducer<bool, IsLoadingAction>(loading)
+    ]);
 
     /// screen Action closure
-    Screen screen(Screen currentScreen, ScreenUpdateAction action) => action.screen;
+    Screen screen(Screen currentScreen, ScreenUpdateAction action) =>
+        action.screen;
 
     /// Current Screen Reducer
     screenReducer = combineReducers<Screen>([

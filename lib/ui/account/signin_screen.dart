@@ -1,4 +1,6 @@
+import 'package:address_book/keys.dart';
 import 'package:address_book/redux/app_state.dart';
+import 'package:address_book/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -51,32 +53,55 @@ class SignInScreen extends StatelessWidget {
         hintText: 'password',
       ),
     );
+
     Widget emailField = TextFormField(
       key: _emailKey,
       keyboardType: TextInputType.emailAddress,
       validator: viewModel.emailValidator,
       decoration: InputDecoration(
-        border: InputBorder.none,
         hintText: 'email',
       ),
     );
 
-    return Form(
-      key: _formKey,
-      child: ListView(
-        children: [
-          emailField,
-          passwordField,
-          _button(context, viewModel),
-        ],
+    Widget createAccount = FlatButton(
+      child: Text("Create Account"),
+      onPressed: () =>
+          AppKey.navigatorKey.currentState.pushNamed(Routes.account),
+    );
+
+    return SafeArea (
+      child: Form(
+        key: _formKey,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          child: Column(
+            children: [
+              emailField,
+              passwordField,
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      createAccount,
+                      _signInButton(context, viewModel),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
+
   }
 
-  Widget _button(BuildContext context, AccountScreenViewModel viewModel) {
+  Widget _signInButton(BuildContext context, AccountScreenViewModel viewModel) {
     Color color = Theme.of(context).primaryColor;
     RaisedButton button = RaisedButton(
-      child: Text('Login'),
+      child: Text('Sign In'),
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final email = _emailKey.currentState.value;
@@ -85,13 +110,11 @@ class SignInScreen extends StatelessWidget {
           viewModel.loginHandler(email, password);
         }
       },
+      shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
       color: color,
+      textColor: Color.fromARGB(255, 255, 255, 255),
     );
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-      child: button,
-    );
+    return button;
   }
-
-  void _login() {}
 }

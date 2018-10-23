@@ -21,7 +21,7 @@ class AppState {
         user: null
       );
 
-  AppState copyWith({bool isLoading, Screen currentScreen, List placemarks}) {
+  AppState copyWith({bool isLoading, Screen currentScreen, List placemarks, User user}) {
     return AppState(
       isLoading: isLoading ?? this.isLoading,
       currentScreen: currentScreen ?? this.currentScreen,

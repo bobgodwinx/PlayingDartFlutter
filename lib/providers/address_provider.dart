@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import '../address.dart';
-import '../repositories/repository.dart';
+import 'package:address_book/address.dart';
+import 'package:address_book/repositories/repository.dart';
+import 'package:address_book/resource.dart';
 
-import 'address_provider_type.dart';
+abstract class AddressProviderType implements Resource<List<Address>> {}
 
 class AddressProvider implements AddressProviderType {
   Repository _repository;
@@ -18,7 +19,7 @@ class AddressProvider implements AddressProviderType {
   }
 
   Future<bool> save(Address address) async {
-    await _repository.addAddress(address).then((_) {
+    return await _repository.addAddress(address).then((_) {
       return true;
     }).catchError((_) {
       return false;

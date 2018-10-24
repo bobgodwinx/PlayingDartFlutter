@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'address.dart';
+import 'package:address_book/address.dart';
 
 abstract class Resource<T> {
   Future<T> load();

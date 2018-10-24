@@ -16,7 +16,10 @@ dependencies:
   shared_preferences: ^0.4.2
   firebase_analytics: ^0.3.3
   cloud_firestore: ^0.8.0
-
+  flutter_crashlytics:
+    git:
+      url: git@github.com:surengrig/flutter_crashlytics.git
+  firebase_auth: ^0.5.20
 
   flutter:
     sdk: flutter
